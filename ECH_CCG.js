@@ -196,7 +196,10 @@ Echomap.Utils.sayHello("ECH_CCG",Imported['ECH - CCG']);
 //=============================================================================
 Echomap.CCG.Parameters = PluginManager.parameters('ECH_CCG');
 Echomap.Params = Echomap.Params || {};
-Echomap.Params.writeToDisk = String(Echomap.CCG.Parameters['writeToDisk']) || true;
+var writeToDiskStr = String(Echomap.CCG.Parameters['writeToDisk'])
+Echomap.Params.writeToDisk = 	writeToDiskStr === 'true'  ? true : 
+								writeToDiskStr === 'on'  ? true : 
+								writeToDiskStr === 'false' ? false : false;
 
 //=============================================================================
 // Boot Strapping Overrides
@@ -541,7 +544,8 @@ Echomap_Processor.prototype.createCompositeImgX = function (basewidth,baseheight
 		var newdata = imageData.replace(/^data:image\/(png|jpg);base64,/, "")
 		//filePath = dpath+'/writenewimage.png';
 		var buf = new Buffer(newdata, 'base64');
-		fs.writeFileSync(filePath, buf);
+		var filePathW = './'+filePath;
+		fs.writeFileSync(filePathW, buf);
 	}
 
     Echomap.Utils.log('createCompositeImgX', 'cache work on parttype', this._parttype );
